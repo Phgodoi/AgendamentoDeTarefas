@@ -1,6 +1,7 @@
 ﻿using AgendamentoDeTarefas.Models;
 using AgendamentoDeTarefas.Models.Context;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace AgendamentoDeTarefas.Controllers
 {
@@ -13,12 +14,42 @@ namespace AgendamentoDeTarefas.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index( string tituloPesquisa, string descricaoPesquisa, int? status, DateTime? dataPesquisa)
         {
-            var tarefa = _context.Tarefas.Where(s => s.D_E_L_E_T_ != "*").ToList();
+         
 
-            return View(tarefa);
+            IQueryable<Tarefas> query = _context.Tarefas.Where(x => x.D_E_L_E_T_ != "*");
+
+            if (!string.IsNullOrWhiteSpace(tituloPesquisa))
+            {
+                query = query.Where(x => x.Titulo.Contains(tituloPesquisa));
+            }
+
+            if (dataPesquisa != null)
+            {
+                query = query.Where(x => x.Data.Date == (dataPesquisa));
+            }
+
+            if (!string.IsNullOrWhiteSpace(descricaoPesquisa))
+            {
+                query = query.Where(x => x.Descricao.Contains(descricaoPesquisa));
+            }
+
+            if (status != null)
+            {
+                var statusEnum = (EnumStatusTarefa)status;
+                query = query.Where(x => x.Status == statusEnum);
+            }
+
+            var resultados = query.ToList();
+
+            return View(resultados);
         }
+
+
+
+
+
 
         public IActionResult Create()
         {
@@ -26,7 +57,7 @@ namespace AgendamentoDeTarefas.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         public IActionResult Create(Tarefas tarefa)
         {
             if (ModelState.IsValid)
@@ -73,7 +104,7 @@ namespace AgendamentoDeTarefas.Controllers
             return View(tarefa);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public IActionResult Delete(Tarefas tarefas)
         {
             var deletarTarefa = _context.Tarefas.Find(tarefas.Id);
@@ -87,6 +118,14 @@ namespace AgendamentoDeTarefas.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+
+        //public IActionResult Search(string nomePesquisa)
+        //{
+        //    var pesquisa = _context.Tarefas.Where(e => e.Titulo.Contains(nomePesquisa)).ToList();
+
+        //    return View("Resultado", pesquisa);
+        //}
+
     }
 
 }

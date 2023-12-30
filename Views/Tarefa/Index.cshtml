@@ -1,22 +1,66 @@
 ﻿@model IEnumerable<AgendamentoDeTarefas.Models.Tarefas>
+
+
 @{
     ViewData["Title"] = "Agenda de Tarefas";
 }
 
 <h2>Agenda de Tarefas</h2>
 
+<br />
+
 <div>
     <a class="btn btn-primary" asp-action="Create">Nova tarefa</a>
 </div>
 
+
 <br />
+
+<div>
+    @using (Html.BeginForm("Index", "Tarefa", FormMethod.Get))
+    {
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                @Html.Label("Pesquisar por título", null, new { @class = "control-label my-1" })
+                @Html.TextBox("tituloPesquisa", null, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-6">
+                @Html.Label("Pesquisar por Descrição", null, new { @class = "control-label my-1" })
+                @Html.TextBox("descricaoPesquisa", null, new { @class = "form-control" })
+            </div> 
+            <div class="form-group col-md-3">
+                @Html.Label("Pesquisar por Data", null, new { @class = "control-label my-1" })
+                @Html.TextBox("dataPesquisa", null, new { @class = "form-control", @type = "date" })
+            </div>
+            <div class="form-group col-md-6">
+                @foreach (EnumStatusTarefa status in Enum.GetValues(typeof(EnumStatusTarefa)))
+                {
+                    <div class="d-inline-block form-check my-2">
+                        <input type="radio" id="@status" name="status" value="@((int)status)" class="form-check-input" />
+                        <label class="form-check-label" for="@status">@status</label>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success my-2">Buscar</button>
+    }
+</div>
+
+
+
+<br />
+
+
+@if (Model.Any())
+{
 
 <table class="table table-striped">
     <thead>
         <tr class="table-dark text-center">
             <th scope="col">Id</th>
             <th scope="col">Titulo</th>
-            <th scope="col">Descricao</th>
+            <th scope="col">Descrição</th>
             <th scope="col">Data</th>
             <th scope="col">Status</th>
 
@@ -54,6 +98,12 @@
         }
     </tbody>
 </table>
+}
+else
+{
+    <p>Nenhum resultado encontrado.</p>
+}
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
