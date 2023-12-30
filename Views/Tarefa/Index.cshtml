@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AgendamentoDeTarefas.Models.Tarefas>
+@{
+    ViewData["Title"] = "Agenda de Tarefas";
+}
+
+<h2>Agenda de Tarefas</h2>
+
+<div>
+    <a class="btn btn-primary" asp-action="Create">Nova tarefa</a>
+</div>
+
+<br />
+
+<table class="table table-striped">
+    <thead>
+        <tr class="table-dark text-center">
+            <th scope="col">Id</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Data</th>
+            <th scope="col">Status</th>
+
+            <th scope="col" class="text-end">Editar</th>
+            <th scope="col" class="ms-auto">Excluir</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Data)
+                </td>
+                 <td>
+                    @Html.ValueFor(model => item.Status)
+                </td>
+                <td class="text-end">
+                    <a class="fas fa-edit btn" asp-action="Edit" asp-route-id="@item.Id"></a>
+                </td>
+                <td class="ms-auto" >
+                    <i class='far fa-trash-alt btn'></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
