@@ -15,7 +15,7 @@ namespace AgendamentoDeTarefas.Controllers
 
         public IActionResult Index()
         {
-            var tarefa = _context.Tarefas.ToList();
+            var tarefa = _context.Tarefas.Where(s => s.D_E_L_E_T_ != "*").ToList();
 
             return View(tarefa);
         }
@@ -48,7 +48,7 @@ namespace AgendamentoDeTarefas.Controllers
             return View(tarefa);
        }
 
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         public IActionResult Edit(Tarefas tarefas)
         {
             var editarTarefa = _context.Tarefas.Find(tarefas.Id);
@@ -62,6 +62,30 @@ namespace AgendamentoDeTarefas.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int Id)
+        {
+            var tarefa = _context.Tarefas.Find(Id);
+
+            if (tarefa == null)
+                return RedirectToAction(nameof(Index));
+            return View(tarefa);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Tarefas tarefas)
+        {
+            var deletarTarefa = _context.Tarefas.Find(tarefas.Id);
+
+            deletarTarefa.D_E_L_E_T_ = "*";
+
+            _context.Update(deletarTarefa);
+            _context.SaveChanges();
+
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 

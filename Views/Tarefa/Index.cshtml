@@ -38,8 +38,9 @@
                     @Html.DisplayFor(model => item.Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.Data)
+                    @(((DateTime)item.Data).ToString("dd/MM/yyyy"))
                 </td>
+
                  <td>
                     @Html.ValueFor(model => item.Status)
                 </td>
@@ -47,7 +48,7 @@
                     <a class="fas fa-edit btn" asp-action="Edit" asp-route-id="@item.Id"></a>
                 </td>
                 <td class="ms-auto" >
-                    <i class='far fa-trash-alt btn'></i>
+                    <a class='far fa-trash-alt btn' asp-action="Delete" asp-route-id="@item.Id"></a>
                 </td>
             </tr>
         }

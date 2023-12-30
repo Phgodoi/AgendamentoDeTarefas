@@ -1,0 +1,52 @@
+﻿@model AgendamentoDeTarefas.Models.Tarefas;
+
+@{
+    ViewData["Title"] = "Deletar Tarefa";
+}
+
+<h2>Deletar tarefa</h2>
+
+
+<h1 class="alert-danger">Você realmente deseja excluir essa tarefa? Está operação não pode ser desfeita!</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr class="table-dark text-center">
+            <th scope="col">Id</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Data</th>
+            <th scope="col">Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr class="text-center">
+            <td>
+                @Model.Id
+            </td>
+            <td>
+               @Model.Titulo
+            </td>
+            <td>
+               @Model.Descricao
+            </td>
+            <td>
+               @Model.Data.ToString("dd/MM/yyyyy")
+            </td>
+            <td>
+                @Model.Status
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<br>
+
+<form asp-action="Delete">
+    <input type="submit" value="Deletar" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</form>
