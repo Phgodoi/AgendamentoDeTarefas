@@ -9,12 +9,6 @@
 
 <br />
 
-<div>
-    <a class="btn btn-primary" asp-action="Create">Nova tarefa</a>
-</div>
-
-
-<br />
 
 <div>
     @using (Html.BeginForm("Index", "Tarefa", FormMethod.Get))
@@ -43,7 +37,11 @@
 
             </div>
         </div>
-        <button type="submit" class="btn btn-success my-2">Buscar</button>
+
+        <div class="form-ror">
+            <button class="btn btn-primary " asp-action="Create">Nova tarefa</button>
+            <button type="submit" class="btn btn-success mx-2 ">Buscar</button>
+        </div>
     }
 </div>
 
